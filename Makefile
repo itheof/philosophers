@@ -6,11 +6,13 @@
 #    By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/12/10 14:41:44 by tvallee           #+#    #+#              #
-#    Updated: 2015/03/09 19:19:07 by tvallee          ###   ########.fr        #
+#    Updated: 2015/03/13 21:13:27 by tvallee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC		= main.c
+SRC		= maingtk.c init.c ft_find_builder.c draw.c timeout.c get_options.c \
+		  tools.c\
+		  sig_handlers/params.c sig_handlers/buttons.c sig_handlers/expose.c
 NAME	= philo
 CC		= gcc
 CFLAGS	= -Wall -Wextra -g -Wshadow -Wno-missing-noreturn\

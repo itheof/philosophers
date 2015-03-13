@@ -6,21 +6,40 @@
 /*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/09 18:59:25 by tvallee           #+#    #+#             */
-/*   Updated: 2015/03/09 19:20:26 by tvallee          ###   ########.fr       */
+/*   Updated: 2015/03/13 22:07:52 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		main(int ac, char **av)
+void	init_env(t_env *e)
 {
-	GtkWidget	*window;
+	e->max_life = 20;
+	e->eat_t = 6;
+	e->rest_t = 6;
+	e->think_t = 6;
+	e->step_time = 1;
+}
 
-	gtk_init (&ac, &av);
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW (window), "yamate kolosai!");
-	g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
-	gtk_widget_show(window);
+int main (int ac, char **av)
+{
+	t_env	e;
+
+	gtk_init(&ac, &av);
+	init_env(&e);
+	get_options(ac, av, e.options);
+	if (e.options[TIME])
+		e.step_time = e.options[TIME];
+	if (e.options[DEBUG])
+		ft_putstr("Initializing GUI...");
+	e.gtkbuilder = init_gtk_env(*av);
+	if (e.options[DEBUG])
+		ft_putendl(" Done !");
+	get_env(&e);
+
+	e.running_state = STOPPED;
 	gtk_main();
-	return (0);
+	if (e.options[DEBUG])
+		ft_putendl("Tchibidibye !");
+	return 0;
 }
