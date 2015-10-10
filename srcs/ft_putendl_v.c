@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expose.c                                           :+:      :+:    :+:   */
+/*   ft_putendl_v.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/03/12 17:41:30 by tvallee           #+#    #+#             */
-/*   Updated: 2015/03/13 22:03:19 by tvallee          ###   ########.fr       */
+/*   Created: 2015/03/14 15:23:38 by tvallee           #+#    #+#             */
+/*   Updated: 2015/03/14 15:25:33 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data)
+void	ft_putendl_v(char *str)
 {
-	data = data;
-	get_env(NULL)->widget = widget;
-	get_env(NULL)->cr = cr;
-	draw(widget, cr);
-	return (0);
+	if (get_env(NULL)->options[DEBUG])
+	{
+		ft_putendl(str);
+	}
 }

@@ -6,22 +6,24 @@
 #    By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/12/10 14:41:44 by tvallee           #+#    #+#              #
-#    Updated: 2015/03/13 21:13:27 by tvallee          ###   ########.fr        #
+#    Updated: 2015/04/03 16:53:36 by tvallee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC		= maingtk.c init.c ft_find_builder.c draw.c timeout.c get_options.c \
-		  tools.c\
-		  sig_handlers/params.c sig_handlers/buttons.c sig_handlers/expose.c
+SRC		= maingtk.c init.c ft_find_file.c draw.c timeout.c get_options.c \
+		  tools.c temp.c term_display.c steps.c philo_routine.c ft_putstr_v.c\
+		  ft_putendl_v.c \
+		  sig_handlers/params.c sig_handlers/buttons.c \
+		  sig_handlers/drawing_zone.c sig_handlers/params2.c
 NAME	= philo
 CC		= gcc
-CFLAGS	= -Wall -Wextra -g -Wshadow -Wno-missing-noreturn\
+CFLAGS	= -Wall -Wextra -Werror -Wshadow -Wno-missing-noreturn\
 		  -Wno-padded -Wno-unreachable-code -Wredundant-decls\
 		  -Wmissing-declarations
 SRC_DIR	= srcs
 VPATH	= $(SRC_DIR)
 INC		= -I./includes -I./libft/includes `pkg-config --cflags --libs gtk+-3.0`
-LIB		= -L./libft -lft
+LIB		= -L./libft -lft -pthread
 OBJ_DIR	= objs
 OBJ		= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 all: $(NAME)
@@ -29,6 +31,7 @@ all: $(NAME)
 $(NAME): $(OBJ_DIR) $(OBJ)
 	@echo ""
 	@echo "Building libft..."
+	@make -C libft
 	@echo "Done !"
 	@echo ""
 	@echo "Linkin'"

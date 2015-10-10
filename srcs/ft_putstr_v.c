@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   steps.c                                            :+:      :+:    :+:   */
+/*   ft_putstr_v.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/03/13 21:20:54 by tvallee           #+#    #+#             */
-/*   Updated: 2015/04/03 15:25:14 by tvallee          ###   ########.fr       */
+/*   Created: 2015/03/14 15:21:18 by tvallee           #+#    #+#             */
+/*   Updated: 2015/03/14 15:38:25 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void		exit_simulation(t_env *env)
+void	ft_putstr_v(char *str)
 {
-	int i;
-
-	i = 0;
-	while (i < N_PHILO)
+	if (get_env(NULL)->options[DEBUG])
 	{
-		env->philosophers[i].quit = 1;
-		i++;
+		ft_putstr(str);
 	}
-	i = 0;
 }

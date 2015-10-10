@@ -1,14 +1,26 @@
-START TIMEOUT
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   temp.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/03/13 22:40:42 by tvallee           #+#    #+#             */
+/*   Updated: 2015/04/03 15:26:38 by tvallee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "philo.h"
 
-static void init_philo(t_env *env)
+void init_philo(t_env *env)
 {
 	int i;
+
 	i = 0;
 	while (i < N_PHILO)
 	{
 		env->philosophers[i].state = WAIT;
-		env->philosophers[i].hp = MAX_LIFE;
+		env->philosophers[i].hp = M_MAX_LIFE;
 		env->philosophers[i].left = &env->baguettes[i];
 		if (i != N_PHILO - 1)
 			env->philosophers[i].right = &env->baguettes[i + 1];
@@ -18,13 +30,15 @@ static void init_philo(t_env *env)
 		env->philosophers[i].dead = 0;
 		env->philosophers[i].sec = 0;
 		env->philosophers[i].num_philo = i;
+		env->philosophers[i].quit = 0;
 		i++;
 	}
 }
 
-static void init_baguettes(pthread_mutex_t (baguettes)[])
+void init_baguettes(pthread_mutex_t baguettes[])
 {
 	int i;
+
 	i = 0;
 	while (i < N_PHILO)
 	{
@@ -33,17 +47,18 @@ static void init_baguettes(pthread_mutex_t (baguettes)[])
 	}
 }
 
-static void init_thread(t_env *env)
+void init_thread(t_env *env)
 {
-	int             i;
-	t_philo *data;
+	int				i;
+	t_philo			*data;
 
 	i = 0;
 	while (i < N_PHILO)
 	{
-		data = (&((env->philosophers)[i]));
-		pthread_create(&(env->thread_addr)[i],
+		data = (&((env->philosophers[i])));
+		pthread_create(&(env->thread_addr[i]),
 				NULL, philo_routine, data);
+		pthread_detach(env->thread_addr[i]);
 		i++;
 	}
 }

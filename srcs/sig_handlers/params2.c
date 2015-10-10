@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   steps.c                                            :+:      :+:    :+:   */
+/*   params2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/03/13 21:20:54 by tvallee           #+#    #+#             */
-/*   Updated: 2015/04/03 15:25:14 by tvallee          ###   ########.fr       */
+/*   Created: 2015/03/14 17:52:20 by tvallee           #+#    #+#             */
+/*   Updated: 2015/04/03 10:48:30 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void		exit_simulation(t_env *env)
+void		ss(GtkSpinButton *spin_button, gpointer user_data)
 {
-	int i;
-
-	i = 0;
-	while (i < N_PHILO)
+	if (M_RUNNING_STATE)
+		gtk_spin_button_set_value(spin_button, (gdouble)M_STEP_TIME);
+	else
 	{
-		env->philosophers[i].quit = 1;
-		i++;
+		M_STEP_TIME = gtk_spin_button_get_value(spin_button);
+		user_data = user_data;
 	}
-	i = 0;
+}
+
+gboolean	switch_verbose(GtkSwitch *widget, gboolean state, gpointer thg)
+{
+	get_env(NULL)->options[DEBUG] = state;
+	gtk_switch_set_state(widget, state);
+	widget = widget;
+	thg = thg;
+	return (state);
 }

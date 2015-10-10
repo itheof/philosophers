@@ -6,13 +6,13 @@
 /*   By: rcargou <rcargou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/11 19:17:44 by rcargou           #+#    #+#             */
-/*   Updated: 2015/03/13 22:02:29 by tvallee          ###   ########.fr       */
+/*   Updated: 2015/03/15 21:05:29 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void			set_sec(t_env *env)
+void				set_sec(t_env *env)
 {
 	int i;
 
@@ -36,7 +36,7 @@ static char			*state_to_str(int state)
 		return (" wait");
 }
 
-static void			display_console(t_env *env)
+void				display_console(t_env *env)
 {
 	int i;
 	int e;
@@ -45,7 +45,7 @@ static void			display_console(t_env *env)
 	i = -1;
 	while (++i < N_PHILO)
 	{
-		ft_putstr("Philo N°");
+		ft_putstr("Philo N");
 		align_nbr(i + 1, N_PHILO);
 		ft_putnbr(1 + i);
 		ft_putstr(": ");

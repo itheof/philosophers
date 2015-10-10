@@ -6,21 +6,23 @@
 /*   By: rcargou <rcargou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/11 17:12:20 by rcargou           #+#    #+#             */
-/*   Updated: 2015/03/13 21:23:53 by tvallee          ###   ########.fr       */
+/*   Updated: 2015/03/16 01:35:46 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void			think(t_philo *philo)
+static void			think(t_philo *philo, int n)
 {
 	int t;
 
 	t = philo->env->think_t;
 	philo->state = THINK;
-	pthread_mutex_unlock((philo->left));
-	pthread_mutex_unlock((philo->right));
-	while (t)
+	if (n == 2)
+		pthread_mutex_unlock((philo->left));
+	else
+		pthread_mutex_unlock((philo->right));
+	while (t && philo->quit != 1)
 	{
 		if (philo->sec)
 		{
@@ -38,7 +40,7 @@ static void			rest(t_philo *philo)
 
 	t = philo->env->rest_t;
 	philo->state = REST;
-	while (t)
+	while (t && philo->quit != 1)
 	{
 		if (philo->sec)
 		{
@@ -55,9 +57,8 @@ static void			eat(t_philo *philo)
 	int t;
 
 	t = philo->env->eat_t;
-	philo->hp = philo->env->max_life;
 	philo->state = EAT;
-	while (t)
+	while (t && philo->quit != 1)
 	{
 		if (philo->sec)
 		{
@@ -71,24 +72,40 @@ static void			eat(t_philo *philo)
 	rest(philo);
 }
 
-void			*philo_routine(void *data)
+static int			lock_bag(int *n, t_philo *philo)
+{
+	int n_baguettes;
+
+	n_baguettes = 0;
+	if ((pthread_mutex_trylock((philo->right))) == 0)
+	{
+		n_baguettes++;
+		*n = 1;
+	}
+	if ((pthread_mutex_trylock((philo->left))) == 0)
+	{
+		n_baguettes++;
+		*n = 2;
+	}
+	return (n_baguettes);
+}
+
+void				*philo_routine(void *data)
 {
 	int			n_baguettes;
 	t_philo		*philo;
-	int			result;
+	int			n;
 
 	philo = (t_philo*)data;
 	while (42)
 	{
-		n_baguettes = 0;
-		if ((result = pthread_mutex_trylock((philo->right))) == 0)
-			n_baguettes++;
-		if ((result = pthread_mutex_trylock((philo->left))) == 0)
-			n_baguettes++;
+		if (philo->quit == 1)
+			return (NULL);
+		n_baguettes = lock_bag(&n, philo);
 		if (n_baguettes == 2)
 			eat(philo);
 		else if (n_baguettes == 1)
-			think(philo);
+			think(philo, n);
 		else
 			philo->state = WAIT;
 		if (philo->sec && philo->state == WAIT)
@@ -97,7 +114,6 @@ void			*philo_routine(void *data)
 			philo->dead = (philo->hp <= 0);
 			philo->sec = 0;
 		}
-		usleep(10000);
 	}
 	return (NULL);
 }

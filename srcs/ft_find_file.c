@@ -6,7 +6,7 @@
 /*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 18:33:27 by tvallee           #+#    #+#             */
-/*   Updated: 2015/03/12 19:55:21 by tvallee          ###   ########.fr       */
+/*   Updated: 2015/03/15 20:59:59 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static char		*ft_lsttoasc(t_list *list)
 	return (str);
 }
 
-static char		*ft_merge_paths(char *path1, char *path2)
+static char		*ft_merge_paths(char *path1, char *path2, char *str)
 {
-	t_list  *list;
-	t_list  *current;
+	t_list		*list;
+	t_list		*current;
 
 	list = ft_tabtolst((void **)ft_strsplit(path1, '/'));
 	ft_lstpushback(&list, ft_tabtolst((void **)ft_strsplit(path2, '/')));
@@ -50,11 +50,11 @@ static char		*ft_merge_paths(char *path1, char *path2)
 	while (current->next)
 		current = current->next;
 	free(current->content);
-	current->content = ft_strdup("gui/philosophers.ui");
+	current->content = ft_strdup(str);
 	return (ft_lsttoasc(list));
 }
 
-char			*ft_find_builder(char *command)
+char			*ft_find_file(char *command, char *str)
 {
 	char	*path;
 	char	*cwd;
@@ -62,7 +62,7 @@ char			*ft_find_builder(char *command)
 	cwd = getcwd(NULL, 0);
 	if (cwd)
 	{
-		path = ft_merge_paths(cwd, command);
+		path = ft_merge_paths(cwd, command, str);
 		free(cwd);
 	}
 	return (path);

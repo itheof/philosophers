@@ -6,7 +6,7 @@
 /*   By: rcargou <rcargou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/11 18:50:14 by rcargou           #+#    #+#             */
-/*   Updated: 2015/03/13 20:47:51 by tvallee          ###   ########.fr       */
+/*   Updated: 2015/03/15 21:01:00 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void		cross_opt(char *str, char opt[])
 			opt[DEBUG] = 1;
 		else if (ft_isdigit(*str))
 			opt[TIME] = *str - '0';
-		else if ((*str) == '-');
+		else if ((*str) == '-')
+			;
 		else
 		{
 			ft_putstr("Unknown option: ");
@@ -31,35 +32,26 @@ static void		cross_opt(char *str, char opt[])
 	}
 }
 
-void			free_split(char **s)
-{
-	int i;
-
-	i = 0;
-	while (s[i] != NULL)
-	{
-		free(s[i]);
-		i++;
-	}
-	free(s);
-}
-
 void			get_options(int ac, char **av, char opt[])
 {
 	int		i;
+	int		j;
 	char	**split;
 
 	i = 0;
+	bzero(opt, 2 * sizeof(char));
 	while (i < ac - 1)
 	{
+		j = 0;
 		split = ft_strsplit(av[1 + i], ' ');
-		while (*split)
+		while (split[j])
 		{
-			if (**split != '-')
+			if (split[j][0] != '-')
 				break ;
-			cross_opt(*split, opt);
-			split++;
+			cross_opt(split[j], opt);
+			j++;
 		}
+		ft_freetab((void **)split);
 		i++;
 	}
 }
